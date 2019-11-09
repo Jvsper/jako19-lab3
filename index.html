@@ -4,34 +4,49 @@
 	<meta charset="utf-8">
 	<title>Lab 3: Sign Up</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-	<h1> Sign Up </h1>
-	<form id="signupForm" method="POST" >
-		First Name : <input type="text" name="fName"> <br>
-		Last Name : <input type="text" name="lName"> <br>
-		Gender : <input type="radio" name="gender" value="m">Male
-				 <input type="radio" name="gender" value="f"> Female <br><br>
-		Zip Code : <input type="text" name="zip" id="zip"><br>
-		City : <span id="city"></span> <br>
-		Latitutde : <span id="latitude"></span> <br>
-		Longitude : <span id="longitude"></span> <br><br>
-		State : 
-		<select id="state" name="state">
-		</select><br/>
+	<header>
+		<h1> Sign Up </h1>
+	</header>
+	<main>
+		<form id="signupForm" method="POST" action="welcome.html">
+			First Name : <input type="text" name="fName"> <br>
+			Last Name : <input type="text" name="lName"> <br>
+			Gender : <input type="radio" name="gender" value="m">Male
+					 <input type="radio" name="gender" value="f"> Female <br><br>
+			Zip Code : <input type="text" name="zip" id="zip"><br>
+			City : <span id="city"></span> <br>
+			Latitutde : <span id="latitude"></span> <br>
+			Longitude : <span id="longitude"></span> <br><br>
+			State : 
+			<select id="state" name="state">
+			</select><br/>
 
-		Select a County : <select id="county"></select><br><br>
+			Select a County : <select id="county"></select><br><br>
 
-		Desired Username : <input type="text" id="username" name="username"> <span id="usernameError"></span><br>
-		Password : <input type="password" id="password" name="password"><span id="pwSixChar"></span><br>
-		Password again : <input type="password" id="passwordAgain"><span id="passwordAgainError"></span><br>
+			Desired Username : <input type="text" id="username" name="username"> <span id="usernameError"></span><br>
+			Password : <input type="password" id="password" name="password"><span id="pwSixChar"></span><br>
+			Password again : <input type="password" id="passwordAgain"><span id="passwordAgainError"></span><br>
 
 
-		<input type="submit" value="Sign Up!">
-	</form>
+			<input type="submit" value="Sign Up!">
+		</form>
+	</main>
+	<hr>
+	<footer>
+		<div>
+            CST336 Internet Programming. 2019&copy; Jasper Kolp <br/>
+            <strong>Disclaimer: </strong>The information in this webpage is fictitious. <br/>
+            It is used for academic purpose only.
+            </div>
+
+            <figure>
+            	<img id="csumb_logo" src="img/csumb.png" alt="csumb_logo">
+            </figure>
+	</footer>
 		<script>
-			//action="welcome.html"
-
 			var usernameAvailable = false;
 
 			//Populate US states initially
