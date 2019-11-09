@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h1> Sign Up </h1>
-
+	<form id="signupForm" method="GET" action="welcome.html">
 		First Name : <input type="text" name="fName"> <br>
 		Last Name : <input type="text" name="lName"> <br>
 		Gender : <input type="radio" name="gender" value="m">Male
@@ -26,12 +26,13 @@
 
 		Select a County : <select id="county"></select><br><br>
 
-		Desired Username : <input type="text" id="username" name="username"><br>
+		Desired Username : <input type="text" id="username" name="username"> <span id="usernameError"></span><br>
 		Password : <input type="password" id="password" name="password"><br>
-		Password again : <input type="password" id="passwordAgain"><br>
+		Password again : <input type="password" id="passwordAgain"><span id="passwordAgainError"></span><br>
+
 
 		<input type="submit" value="Sign Up!">
-
+	</form>
 		<script>
 			//Displaying City from API after typing a zip code
 			$("#zip").on("change",function(){
@@ -65,7 +66,54 @@
 				}); // ajax
 			})
 
-		
+			var usernameAvailable = false;
+
+			$("#username").change(function(){
+				$.ajax({
+					method: "GET",
+					url: "https://cst336.herokuapp.com/projects/api/usernamesAPI.php",
+					dataType: "json",
+					data: {"username": $("#username").val()},
+					success: function (result, status){
+						if(result.available){
+							$("#usernameError").html("Username is available!");
+							$("#usernameError").css("color", "green");
+							usernameAvailable = true;
+						}else {
+							$("#usernameError").html("Username is unavailable!");
+							$("#usernameError").css("color", "red");		
+							usernameAvailable = false;					
+						};
+					};
+				});
+			});
+
+
+				$("#signupForm").on("submit",function(e){
+					//alert("Submitting form...");
+					if(!isFormValid){
+						e.preventDefault();
+					};
+
+				});
+
+				function isFormValid() {
+					isValid = true;
+					if(!usernameAvailable){
+						isValid = false;
+					};
+
+					if($("#username").val().length== 0){
+						isValid = false;
+						$("#usernameError").html("Username is required");
+					};
+
+					if($("#password").val() != $("#passwordAgain").val()){
+						$("#passwordAgainError").html("Password Mismatch!");
+						isValid = false;
+					}
+					return isValid;
+				};
 
 		</script>
 </body>
