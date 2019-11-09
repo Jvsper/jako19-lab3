@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h1> Sign Up </h1>
-	<form id="signupForm" method="GET" action="welcome.html">
+	<form id="signupForm" method="POST" >
 		First Name : <input type="text" name="fName"> <br>
 		Last Name : <input type="text" name="lName"> <br>
 		Gender : <input type="radio" name="gender" value="m">Male
@@ -18,22 +18,36 @@
 		Longitude : <span id="longitude"></span> <br><br>
 		State : 
 		<select id="state" name="state">
-			<option value="">Select One</option>
-			<option value="ca"> California </option>
-			<option value="ny"> New york </option>
-			<option value="tx"> Texas </option>
 		</select><br/>
 
 		Select a County : <select id="county"></select><br><br>
 
 		Desired Username : <input type="text" id="username" name="username"> <span id="usernameError"></span><br>
-		Password : <input type="password" id="password" name="password"><br>
+		Password : <input type="password" id="password" name="password"><span id="pwSixChar"></span><br>
 		Password again : <input type="password" id="passwordAgain"><span id="passwordAgainError"></span><br>
 
 
 		<input type="submit" value="Sign Up!">
 	</form>
 		<script>
+			//action="welcome.html"
+
+			var usernameAvailable = false;
+
+			//Populate US states initially
+			$.ajax({
+				method: "GET",
+				url: "https://cst336.herokuapp.com/projects/api/state_abbrAPI.php",
+				dataType: "json",
+				//data: "state",
+				success: function(result, status){
+						$("#state").html("<option> Select One </option>");
+						for (let i=0; i <result.length; i++){
+							$("#state").append("<option value='" + result[i].usps + "'>" + result[i].state + "</option>");
+						}
+				}
+			});
+
 			//Displaying City from API after typing a zip code
 			$("#zip").on("change",function(){
 				$.ajax({
@@ -66,8 +80,6 @@
 				}); // ajax
 			})
 
-			var usernameAvailable = false;
-
 			$("#username").change(function(){
 				$.ajax({
 					method: "GET",
@@ -83,37 +95,46 @@
 							$("#usernameError").html("Username is unavailable!");
 							$("#usernameError").css("color", "red");		
 							usernameAvailable = false;					
-						};
-					};
-				});
-			});
+						}
+					}
+				})
+			})
 
+				$("#signupForm").on("submit",function(error){
+					alert("Submitting form... ");
 
-				$("#signupForm").on("submit",function(e){
-					//alert("Submitting form...");
-					if(!isFormValid){
-						e.preventDefault();
-					};
-
-				});
+					if(!isFormValid()){
+						error.preventDefault();
+					}
+				})
 
 				function isFormValid() {
-					isValid = true;
+					let isValid = true;
+
 					if(!usernameAvailable){
 						isValid = false;
-					};
+					}
 
 					if($("#username").val().length== 0){
+
 						isValid = false;
-						$("#usernameError").html("Username is required");
-					};
+					}
 
 					if($("#password").val() != $("#passwordAgain").val()){
 						$("#passwordAgainError").html("Password Mismatch!");
+						$("#passwordAgainError").css("color", "red");
+						isValid = false;
+					}
+
+
+					if($("#password").val().length < 6){
+						$("#pwSixChar").html("Password needs at least 6 characters");
+						$("#pwSixChar").css("color", "red");
 						isValid = false;
 					}
 					return isValid;
-				};
+				}
+
 
 		</script>
 </body>
