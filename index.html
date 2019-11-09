@@ -14,8 +14,8 @@
 				 <input type="radio" name="gender" value="f"> Female <br><br>
 		Zip Code : <input type="text" name="zip" id="zip"><br>
 		City : <span id="city"></span> <br>
-		Latitutde : <br>
-		Longitude : <br><br>
+		Latitutde : <span id="latitude"></span> <br>
+		Longitude : <span id="longitude"></span> <br><br>
 		State : 
 		<select id="state" name="state">
 			<option value="">Select One</option>
@@ -24,7 +24,7 @@
 			<option value="tx"> Texas </option>
 		</select><br/>
 
-		Select a County : <select id="coutny"></select><br><br>
+		Select a County : <select id="county"></select><br><br>
 
 		Desired Username : <input type="text" id="username" name="username"><br>
 		Password : <input type="password" id="password" name="password"><br>
@@ -41,11 +41,31 @@
 					dataType: "json",
 					data: {"zip": $("#zip").val()},
 					success: function(result, status){
-							alert(result);
+							//alert(result.city);
+							$("#city").html(result.city);
+							$("#latitude").html(result.latitude);
+							$("#longitude").html(result.longitude);
 					}
 				}); // ajax
 			}); // zip
 
+			$("#state").on("change", function () {
+				$.ajax({
+					method: "GET",
+					url: "https://cst336.herokuapp.com/projects/api/countyListAPI.php",
+					dataType: "json",
+					data: {"state": $("#state").val()},
+					success: function(result, status){
+							//alert(result[0].county);
+							$("#county").html("<option> Select One </option>");
+							for (let i=0; i <result.length; i++){
+								$("#county").append("<option>" + result[i].county + "</option>");
+							}
+					}
+				}); // ajax
+			})
+
+		
 
 		</script>
 </body>
