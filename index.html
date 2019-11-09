@@ -34,19 +34,19 @@
 
 		<script>
 			//Displaying City from API after typing a zip code
-			//$("#zip").on("change",function(){
-			//	alert($("#zip").val());
-			//}); // zip
+			$("#zip").on("change",function(){
+				$.ajax({
+					method: "GET",
+					url: "https://cst336.herokuapp.com/projects/api/cityInfoAPI.php",
+					dataType: "json",
+					data: {"zip": $("#zip").val()},
+					success: function(result, status){
+							alert(result);
+					}
+				}); // ajax
+			}); // zip
 
-			$.ajax({
-				method: "GET",
-				url: "https://cst336.herokuapp.com/projects/api/cityInfoAPI.php",
-				dataType: "json",
-				data: {"zip": $("#zip").val()},
-				success: function(result, status){
-					alert(result);
-				}
-			}); // ajax
+
 		</script>
 </body>
 </html>
